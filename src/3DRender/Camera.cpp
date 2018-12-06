@@ -4,7 +4,7 @@
  * 
  * Created on 19. Februar 2015, 08:24
  */
-
+#define GLM_ENABLE_EXPERIMENTAL 1
 #include <glm/gtc/matrix_transform.hpp>
 #include <GL/gl.h>
 #include <glm/gtx/transform.hpp>

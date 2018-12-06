@@ -31,6 +31,7 @@ IF (WIN32)
 else()
     FIND_PATH(ANTTWEAKBAR_INCLUDE_DIR AntTweakBar.h PATHS
         ${CMAKE_CURRENT_LIST_DIR}/../external/AntTweakBar/include/
+	${CMAKE_SOURCE_DIR}/scripts/anttweakbar/AntTweakBar/include
         /usr/local/include
         /usr/X11/include
         /usr/include
@@ -41,6 +42,7 @@ else()
         /usr/X11
         /usr
 		${CMAKE_CURRENT_LIST_DIR}/../external/AntTweakBar/lib/x11
+	${CMAKE_SOURCE_DIR}/scripts/anttweakbar/AntTweakBar/lib
         PATH_SUFFIXES a lib64 lib dylib NO_DEFAULT_PATH)
 endif()
 

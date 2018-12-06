@@ -13,7 +13,7 @@
 
 #ifndef SHADOWS_H
 #define SHADOWS_H
-
+#define GLM_ENABLE_EXPERIMENTAL 1
 #include <GL3W/gl3w.h>
 #include <glm/glm.hpp>
 #include <GL/gl.h>

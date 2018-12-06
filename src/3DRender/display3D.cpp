@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 
-/* 
+/*
  * File:   display3D.cpp
  * Author: tg
- * 
+ *
  * Created on 3. November 2016, 10:51
  */
 
@@ -21,16 +21,16 @@
 #include "simpleRender.h"
 #include "simulation.h"
 
-display3D::display3D(const uint32_t windowLenght, const uint32_t windowHeight, const uint32_t textureLenght, const uint32_t textureHeight) 
+display3D::display3D(const uint32_t windowLenght, const uint32_t windowHeight, const uint32_t textureLenght, const uint32_t textureHeight)
  : windowDimension(glm::ivec2(windowLenght,windowHeight)), textureDimension(glm::ivec2(textureLenght,textureHeight))
 {
 }
 
 
-void display3D::init() 
+void display3D::init()
 {
     initCamera();
-    
+
 
     terrainPlain = std::make_shared<plane>(glm::ivec2(80,80),glm::vec3(0.0),glm::vec3(0.0),glm::vec3(1.0));
 
@@ -38,11 +38,11 @@ void display3D::init()
     shadows = std::make_shared<Shadows>(terrainPlain);
     waterRender =  std::make_shared<WaterRender>(terrainPlain,textureDimension);
     light = std::make_shared<Light>( 0,glm::vec3(0),glm::vec3(40));
-    
-    Bar3D = inputHandler::createNewBar("3DControls","position='608 8' size='200 200'");
+
+    Bar3D = inputHandler::createNewBar("3DControls","text=dark position='1208 8' size='400 400'");
     TwAddVarRW(Bar3D,"Light Position",TW_TYPE_DIR3F,&(light->getCurrentData().Position),"opened='true'");
-   // TwAddVarRW(Bar3D,"Light Color",TW_TYPE_COLOR3F,&(light->getCurrentData().Color),"");    
-    
+   // TwAddVarRW(Bar3D,"Light Color",TW_TYPE_COLOR3F,&(light->getCurrentData().Color),"");
+
      glBindVertexArray(terrainPlain->getVao_plane());
 
     landscaperender->init(std::string(SHADER_PATH) + "display/3D/dispmap");
@@ -58,29 +58,29 @@ void display3D::init()
 
 void display3D::render(float frameTime,simulation* sim)
 {
-    
+
     sim->setTexturesBindings();
-    
+
     camera->Update(frameTime);
         //0891A = GL_CLAMP_VERTEX_COLOR, 0x891B = GL_CLAMP_FRAGMENT_COLOR
     glClampColor(0x891A, GL_FALSE);
     glClampColor(GL_CLAMP_READ_COLOR, GL_FALSE);
     glClampColor(0x891B, GL_FALSE);
      glBindVertexArray(terrainPlain->getVao_plane());
-    
-    
+
+
     shadows->render(light->getCurrentData().Position);
     camera->setViewport(0.0,0.0,windowDimension.x,windowDimension.y);
     camera->loadViewPort();
     landscaperender->render(camera,shadows,light,sim->getCurrentDisplay());
     waterRender->render(camera,shadows,light,frameTime);
-    
+
         glBindVertexArray(0);
         glClampColor(0x891A, GL_TRUE);
     glClampColor(GL_CLAMP_READ_COLOR, GL_TRUE);
     glClampColor(0x891B, GL_TRUE);
     sim->unsetTexturesBindings();
-    
+
 }
 
 void display3D::initCamera()
@@ -98,9 +98,9 @@ void display3D::handleCameraInput(GLFWwindow* window)
 {
         glm::dvec2 newpos;
         glfwGetCursorPos(window, &newpos.x, &newpos.y);
-        
 
-        
+
+
     if(glfwGetKey(window,GLFW_KEY_LEFT_SHIFT)== GLFW_PRESS)
     {
         camera->MoveHead((prevMousePosition.x -newpos.x)*-0.01,(prevMousePosition.y-newpos.y)*0.01);
@@ -117,11 +117,11 @@ void display3D::handleCameraInput(GLFWwindow* window)
         if(glfwGetKey(window,GLFW_KEY_W) == GLFW_PRESS)
         {
             camera->MoveZ(-0.7);
-        }        
+        }
         if(glfwGetKey(window,GLFW_KEY_S) == GLFW_PRESS)
         {
             camera->MoveZ(0.7);
-        }          
+        }
         //ugly workaround for bug in GLFW3
         if(glfwGetKey(window,GLFW_KEY_TAB) == GLFW_PRESS && ((std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - buttonWait)).count() > 200))
         {
@@ -130,13 +130,10 @@ void display3D::handleCameraInput(GLFWwindow* window)
 
         }
 
-       
+
 }
 
 bool display3D::isRender3D() const
 {
     return render3D;
 }
-
-
-

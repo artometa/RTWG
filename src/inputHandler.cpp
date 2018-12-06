@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 
-/* 
+/*
  * File:   inputHandler.cpp
  * Author: tartg
- * 
+ *
  * Created on 18. Oktober 2016, 10:35
  */
 
@@ -53,10 +53,11 @@ inputHandler::inputHandler(GLFWwindow* window) : window(window)
     int width,height;
      	glfwGetWindowSize(window,&width, &height);
     // Initialize AntTweakBar
+    TwDefine(" GLOBAL fontscaling=2 "); // double the size of all fonts
     TwInit(TW_OPENGL_CORE, NULL);
-     TwWindowSize(width, height); 
-    
-    
+     TwWindowSize(width, height);
+
+
     // Set GLFW event callbacks
     // - Redirect window size changes to the callback function WindowSizeCB
     glfwSetWindowSizeCallback(window,windowSizeCallback);
@@ -65,7 +66,7 @@ inputHandler::inputHandler(GLFWwindow* window) : window(window)
     // - Directly redirect GLFW mouse position events to AntTweakBar
     glfwSetCursorPosCallback(window,cursorPosCallback);
     // - Directly redirect GLFW mouse wheel events to AntTweakBar
-    glfwSetScrollCallback(window,scrollCallback); 
+    glfwSetScrollCallback(window,scrollCallback);
     // - Directly redirect GLFW key events to AntTweakBar
     glfwSetKeyCallback(window,keyCallback);
     // - Directly redirect GLFW char events to AntTweakBar
@@ -75,12 +76,12 @@ inputHandler::inputHandler(GLFWwindow* window) : window(window)
 TwBar* inputHandler::createNewBar(const std::string& name, const std::string& description)
 {
     TwBar* bar =  TwNewBar(name.c_str());
-    TwDefine(std::string(name +" " +  description).c_str()); 
+    TwDefine(std::string(name +" " +  description).c_str());
     return bar;
 }
 
 
-void inputHandler::update() 
+void inputHandler::update()
 {
     // Draw tweak bars
     TwDraw();
@@ -88,11 +89,7 @@ void inputHandler::update()
 }
 
 
-void inputHandler::exit() 
+void inputHandler::exit()
 {
     TwTerminate();
 }
-
-
-
-
